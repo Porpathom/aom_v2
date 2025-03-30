@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn - Glasgow Coma Scale - Faculty of Nursing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            width: 100%;
+            height: 680px;
+            position: relative;
+            background: #e37c05;
+            color: white;
+            overflow: hidden;
+            border-bottom: 4px solid #e37c05;
+        }
+
+        .university-footer-logo {
+            height: 40px;
+            width: auto;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .header-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: absolute;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .learn-container {
+            background-color: white;
+            padding: 40px 25px;
+        }
+
+        .learn-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 25px;
+        }
+
+        .learn-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: #e8f5e9;
+        }
+
+        .learn-item::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #00796B;
+            transition: width 0.3s ease;
+        }
+
+        .learn-item:hover::after {
+            width: 100%;
+        }
+
+        .learn-video-container {
+            width: 280px;
+            height: 160px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin-right: 30px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            /* เพิ่ม cursor: pointer เพื่อให้เห็นว่าคลิกได้ */
+        }
+
+        .learn-video-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* เพิ่มเอฟเฟกต์เมื่อคลิกที่กล่องวิดีโอ */
+        .learn-video-container:active {
+            transform: scale(0.98);
+        }
+
+        /* ปรับแต่งข้อความแจ้งเตือนว่าคลิกได้ */
+        .learn-video-container::after {
+            content: "คลิกเพื่อดูวิดีโอ";
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 12px;
+            padding: 4px 0;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .learn-video-container:hover::after {
+            opacity: 1;
+        }
+
+        /* เพิ่มเอฟเฟกต์ ripple เมื่อคลิก */
+        @keyframes ripple {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        /* ปรับแต่งสำหรับหน้าจอขนาดเล็ก */
+        @media (max-width: 767px) {
+            .learn-video-container::after {
+                font-size: 10px;
+                padding: 3px 0;
+            }
+        }
+
+        .learn-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .learn-title {
+            font-size: 42px;
+            font-weight: bold;
+            color: #4CAF50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 121, 107, 0.3);
+            z-index: 1;
+            transition: background-color 0.3s ease;
+        }
+
+        .learn-item:hover .video-overlay {
+            background-color: rgba(0, 121, 107, 0.5);
+        }
+
+        .lets-go {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+
+        .learn-info {
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .learn-info h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .learn-item:hover .learn-info h2 {
+            color: #00796B;
+        }
+
+        .learn-info p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+
+        .university-footer-logo {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .footer-text {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .learn-button {
+            display: inline-block;
+            background-color: #009688;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .learn-item:hover .learn-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .learn-item:hover .learn-button {
+            animation: pulse 1.5s infinite;
+        }
+
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #ffb300;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .home-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            background-color: white;
+            color: #e5b02a;
+            border-color: white;
+        }
+
+        .home-button i {
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover i {
+            transform: scale(1.2);
+        }
+
+        .home-button::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 0.5s;
+        }
+
+        .home-button:hover::before {
+            transform: scale(2);
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .home-button-text {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            left: 80px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover .home-button-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Video Modal Player */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            width: 80%;
+            max-width: 1000px;
+            position: relative;
+        }
+
+        .modal-video {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .close-modal:hover {
+            color: #e37c05;
+            transform: scale(1.2);
+        }
+
+        /* Play button */
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .play-button i {
+            color: #e37c05;
+            font-size: 28px;
+            margin-left: 5px;
+        }
+
+
+        .play-button:hover {
+            background-color: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .learn-item:hover .play-button {
+            background-color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .header {
+                height: 400px;
+            }
+
+            .learn-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+
+            .learn-video-container {
+                width: 100%;
+                height: 200px;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .learn-info h2 {
+                font-size: 24px;
+            }
+
+            .learn-info p {
+                font-size: 15px;
+            }
+
+            .home-button {
+                top: 15px;
+                left: 15px;
+                width: 50px;
+                height: 50px;
+            }
+
+            .home-button i {
+                font-size: 20px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .university-footer-logo {
+                height: 40px;
+                margin-right: 0;
+            }
+        }
+
+        /* For very small devices */
+        @media (max-width: 480px) {
+            .header {
+                height: 300px;
+            }
+
+            .learn-video-container {
+                height: 180px;
+            }
+
+            .learn-info p {
+                font-size: 14px;
+            }
+
+            .learn-container {
+                padding: 20px 15px;
+            }
+
+            .learn-item {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .footer-text {
+                font-size: 14px;
+            }
+
+            .learn-button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+
+        .download-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 176, 155, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .download-button:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(0, 176, 155, 0.6);
+        }
+
+        .download-button i {
+            font-size: 24px;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .download-button:hover i {
+            transform: scale(1.2);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .download-button-text {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            right: 80px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+        }
+
+        .download-button:hover .download-button-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .download-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s ease;
+        }
+
+        .download-button:hover .download-glow {
+            opacity: 0.4;
+            transform: scale(1.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(0.8);
+                opacity: 0.3;
+            }
+        }
+
+        /* เพิ่ม Animation เมื่อดาวน์โหลด */
+        @keyframes downloadStart {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(0.8);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* ปรับแต่งให้เข้ากับ Responsive */
+        @media (max-width: 767px) {
+            .download-button {
+                width: 50px;
+                height: 50px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .download-button i {
+                font-size: 20px;
+            }
+        }
+
+        /* สำหรับหน้าจอขนาดเล็กมาก */
+        @media (max-width: 480px) {
+            .download-button {
+                width: 45px;
+                height: 45px;
+                top: 10px;
+                right: 10px;
+            }
+
+            .download-button i {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header Section with Video Background -->
+        <div class="header">
+            <!-- Home Button - Fixed on top of all content -->
+            <div class="home-button" onclick="goToHome()">
+                <i class="fas fa-home"></i>
+                <span class="home-button-text">กลับหน้าหลัก</span>
+            </div>
+
+            <video class="header-video" autoplay muted loop playsinline>
+                <source src="/assest/video_bg/learn.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="download-button" onclick="downloadMaterials()">
+                <i class="fas fa-file-download"></i>
+                <div class="download-glow"></div>
+                <span class="download-button-text">ดาวน์โหลดเอกสาร</span>
+            </div>
+        </div>
+
+        <!-- Learn Modules Container -->
+        <div class="learn-container">
+            <!-- Basic Module -->
+            <!-- Basic Module - ใช้เฟรมจากวิดีโอเป็นภาพปก -->
+            <div class="learn-item" onclick="handleModuleClick('basic')">
+                <div class="learn-video-container">
+                    <div class="video-overlay"></div>
+                    <video class="learn-video" muted preload="metadata">
+                        <source src="/assest/learn_v/1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="play-button" onclick="openVideoModal('/assest/learn_v/1.mp4', event)">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="learn-info">
+                    <h2>พื้นฐาน Glasgow Coma Scale</h2>
+                    <p>
+                        เรียนรู้ความรู้พื้นฐานเกี่ยวกับ Glasgow Coma Scale (GCS)
+                        ซึ่งเป็นเครื่องมือที่ใช้ในการประเมินระดับความรู้สึกตัวของผู้ป่วย
+                        บทเรียนนี้จะแนะนำประวัติความเป็นมา วัตถุประสงค์ และองค์ประกอบหลักทั้งสามด้านของ GCS
+                        เหมาะสำหรับนักศึกษาพยาบาลและบุคลากรทางการแพทย์ที่เริ่มต้นเรียนรู้
+                    </p>
+                    <div class="learn-button">เริ่มเรียนรู้</div>
+                </div>
+            </div>
+
+            <!-- Eye Response Module - ใช้เฟรมจากวิดีโอเป็นภาพปก -->
+            <div class="learn-item" onclick="handleModuleClick('eye')">
+                <div class="learn-video-container">
+                    <div class="video-overlay"></div>
+                    <video class="learn-video" muted preload="metadata">
+                        <source src="/assest/learn_v/2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="play-button" onclick="openVideoModal('/assest/learn_v/2.mp4', event)">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="learn-info">
+                    <h2>การประเมินการลืมตา (Eye Opening)</h2>
+                    <p>
+                        เรียนรู้วิธีการประเมินการลืมตาของผู้ป่วย ซึ่งเป็นหนึ่งในสามองค์ประกอบหลักของ Glasgow Coma Scale
+                        บทเรียนนี้ครอบคลุมการให้คะแนนตั้งแต่ 1-4 คะแนน พร้อมเทคนิคการประเมินที่ถูกต้อง
+                        และวิธีการจัดการกับอุปสรรคที่อาจพบในการประเมิน เช่น ตาบวม หรืออาการบาดเจ็บที่ใบหน้า
+                    </p>
+                    <div class="learn-button">เริ่มเรียนรู้</div>
+                </div>
+            </div>
+
+            <!-- Verbal Response Module - ใช้เฟรมจากวิดีโอเป็นภาพปก -->
+            <div class="learn-item" onclick="handleModuleClick('verbal')">
+                <div class="learn-video-container">
+                    <div class="video-overlay"></div>
+                    <video class="learn-video" muted preload="metadata">
+                        <source src="/assest/learn_v/3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="play-button" onclick="openVideoModal('/assest/learn_v/3.mp4', event)">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="learn-info">
+                    <h2>การประเมินการตอบสนองด้านการพูด (Verbal Response)</h2>
+                    <p>
+                        เรียนรู้วิธีการประเมินการตอบสนองด้านการพูดของผู้ป่วย
+                        ซึ่งช่วยบ่งชี้ถึงการรับรู้และความสามารถในการสื่อสาร
+                        บทเรียนนี้อธิบายการให้คะแนนตั้งแต่ 1-5 คะแนน เทคนิคการซักถาม และการประเมินผู้ป่วยที่มีข้อจำกัด
+                        เช่น ผู้ป่วยที่ใส่ท่อช่วยหายใจ ผู้ป่วยที่มีปัญหาทางการสื่อสาร หรือผู้ป่วยเด็ก
+                    </p>
+                    <div class="learn-button">เริ่มเรียนรู้</div>
+                </div>
+            </div>
+
+            <!-- Motor Response Module - ใช้เฟรมจากวิดีโอเป็นภาพปก -->
+            <div class="learn-item" onclick="handleModuleClick('motor')">
+                <div class="learn-video-container">
+                    <div class="video-overlay"></div>
+                    <video class="learn-video" muted preload="metadata">
+                        <source src="/assest/learn_v/4.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="play-button" onclick="openVideoModal('/assest/learn_v/4.mp4', event)">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="learn-info">
+                    <h2>การประเมินการตอบสนองด้านการเคลื่อนไหว (Motor Response)</h2>
+                    <p>เรียนรู้วิธีการประเมินการตอบสนองด้านการเคลื่อนไหวของผู้ป่วย
+                        ซึ่งเป็นตัวชี้วัดสำคัญของระดับความรู้สึกตัว
+                        บทเรียนนี้ครอบคลุมการให้คะแนนตั้งแต่ 1-6 คะแนน และเทคนิคการทดสอบที่ถูกต้อง
+                        รวมถึงการแปลผลการตอบสนองแบบต่างๆ เช่น การเคลื่อนไหวตามคำสั่ง การตอบสนองต่อความเจ็บปวด
+                        เพื่อช่วยในการประเมินภาวะทางระบบประสาทของผู้ป่วย</p>
+                    <div class="learn-button">เริ่มเรียนรู้</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <img src="/assest/images/university_logo.jpg" alt="University Logo" class="university-footer-logo">
+            <span class="footer-text">GCS SSKRU Faculty of nursing</span>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeVideoModal()">&times;</span>
+            <video id="modalVideo" class="modal-video" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setupModuleClickHandlers();
+            // Handle the header background video (autoplay is fine for this one)
+            const headerVideo = document.querySelector('.header-video');
+            if (headerVideo) {
+                const playPromise = headerVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Header video autoplay prevented");
+
+                        // Add a click handler to play when user interacts with page
+                        const handleUserInteraction = () => {
+                            headerVideo.play();
+                            document.removeEventListener('click', handleUserInteraction);
+                            document.removeEventListener('touchstart', handleUserInteraction);
+                        };
+
+                        document.addEventListener('click', handleUserInteraction);
+                        document.addEventListener('touchstart', handleUserInteraction);
+                    });
+                }
+            }
+
+            // Disable autoplay for all module videos
+            const moduleVideos = document.querySelectorAll('.learn-video:not(.header-video)');
+            moduleVideos.forEach(video => {
+                // Ensure these videos don't autoplay
+                video.removeAttribute('autoplay');
+                video.pause();
+                video.currentTime = 0;
+            });
+
+            // Add floating effect to home button
+            const homeButton = document.querySelector('.home-button');
+            if (homeButton) {
+                homeButton.style.animation = 'float 3s ease-in-out infinite';
+            }
+        });
+
+        // Function to handle module click
+        // ปรับปรุงฟังก์ชัน handleModuleClick เพื่อให้เล่นวิดีโอเมื่อคลิกที่กล่อง
+        function handleModuleClick(moduleId, videoSrc) {
+            console.log(`Module ${moduleId} clicked`);
+
+            // ถ้ามี videoSrc ให้เปิด modal วิดีโอ
+            if (videoSrc) {
+                openVideoModal(videoSrc);
+            }
+
+            // Add visual feedback for click
+            const moduleItems = document.querySelectorAll('.learn-item');
+            let selectedItem;
+
+            // Find the clicked module
+            switch (moduleId) {
+                case 'basic': selectedItem = moduleItems[0]; break;
+                case 'eye': selectedItem = moduleItems[1]; break;
+                case 'verbal': selectedItem = moduleItems[2]; break;
+                case 'motor': selectedItem = moduleItems[3]; break;
+                case 'clinical': selectedItem = moduleItems[4]; break;
+            }
+
+            // Add click effect
+            if (selectedItem) {
+                selectedItem.style.transform = 'scale(0.98)';
+
+                setTimeout(() => {
+                    selectedItem.style.transform = 'translateY(-5px)';
+                }, 150);
+            }
+
+            // You can add navigation code here later
+            // window.location.href = `/${moduleId}.html`;
+        }
+
+        // Function to navigate to home page
+        function goToHome() {
+            console.log("Going to home page");
+            window.location.href = "/index.html";
+
+            // Visual feedback for button click
+            const homeButton = document.querySelector('.home-button');
+            homeButton.style.transform = 'scale(0.9)';
+
+            setTimeout(() => {
+                homeButton.style.transform = 'scale(1.1)';
+            }, 150);
+        }
+
+        // Function to open video modal
+        function openVideoModal(videoSrc) {
+            const modal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+
+            // Set video source
+            modalVideo.querySelector('source').src = videoSrc;
+            modalVideo.load(); // Important to reload the video with new source
+
+            // Show modal
+            modal.classList.add('active');
+
+            // Play video after a short delay to ensure the modal is visible
+            setTimeout(() => {
+                modalVideo.play().catch(e => {
+                    console.log("Could not autoplay modal video:", e);
+                });
+            }, 300);
+        }
+
+        // ฟังก์ชันเพื่อเพิ่ม event listener ให้กับทุกโมดูล
+        function setupModuleClickHandlers() {
+            // หา learn-item ทั้งหมด
+            const learnItems = document.querySelectorAll('.learn-item');
+
+            // วน loop เพื่อตั้งค่า event listener สำหรับแต่ละโมดูล
+            learnItems.forEach((item, index) => {
+                // หา video source สำหรับโมดูลนี้
+                const videoElement = item.querySelector('.learn-video');
+                const videoSrc = videoElement ? videoElement.querySelector('source').src : null;
+
+                // กำหนด moduleId ตามลำดับ
+                let moduleId;
+                switch (index) {
+                    case 0: moduleId = 'basic'; break;
+                    case 1: moduleId = 'eye'; break;
+                    case 2: moduleId = 'verbal'; break;
+                    case 3: moduleId = 'motor'; break;
+                    case 4: moduleId = 'clinical'; break;
+                    default: moduleId = `module-${index}`;
+                }
+
+                // ลบ onclick attribute เดิม (ถ้ามี)
+                item.removeAttribute('onclick');
+
+                // เพิ่ม event listener ใหม่
+                item.addEventListener('click', function () {
+                    handleModuleClick(moduleId, videoSrc);
+                });
+
+                // อัปเดตปุ่มเล่นให้หยุดการแพร่กระจายของ event
+                const playButton = item.querySelector('.play-button');
+                if (playButton) {
+                    // ลบ onclick attribute เดิม
+                    playButton.removeAttribute('onclick');
+
+                    // เพิ่ม event listener ใหม่
+                    playButton.addEventListener('click', function (event) {
+                        // ไม่ต้องทำอะไรเพิ่มเติม เพราะ parent element จะจัดการเล่นวิดีโอแล้ว
+                        // แค่ป้องกันไม่ให้เกิด event bubbling
+                        event.stopPropagation();
+                        openVideoModal(videoSrc);
+                    });
+                }
+            });
+        }
+
+        // Function to close video modal
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+
+            // Pause video and reset to beginning
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+
+            // Hide modal
+            modal.classList.remove('active');
+        }
+
+        // Close modal when clicking on the background
+        document.getElementById('videoModal').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closeVideoModal();
+            }
+        });
+
+        function downloadMaterials() {
+            // ทำการเปลี่ยน Animation เมื่อกดปุ่ม
+            const downloadBtn = document.querySelector('.download-button');
+            downloadBtn.style.animation = 'downloadStart 0.5s ease';
+
+            setTimeout(() => {
+                downloadBtn.style.animation = '';
+            }, 500);
+
+            // สร้าง URL สำหรับไฟล์ที่ต้องการดาวน์โหลด
+            const fileUrl = '/assest/pdf/GCS_Learning_Materials.pdf';
+
+            // สร้าง Element a สำหรับการดาวน์โหลด
+            const a = document.createElement('a');
+            a.href = fileUrl;
+            a.download = 'เอกสารประกอบ GCS.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // แสดง Toast notification
+            showToast('กำลังดาวน์โหลดเอกสาร...');
+        }
+
+        // ฟังก์ชันแสดง Toast notification
+        function showToast(message) {
+            // ตรวจสอบว่ามี toast container อยู่หรือไม่
+            let toast = document.querySelector('.toast-container');
+
+            // ถ้าไม่มีให้สร้างใหม่
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.className = 'toast-container';
+                document.body.appendChild(toast);
+
+                // เพิ่ม style สำหรับ toast
+                const style = document.createElement('style');
+                style.textContent = `
+                    .toast-container {
+                        position: fixed;
+                        bottom: 20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background-color: rgba(0, 0, 0, 0.8);
+                        color: white;
+                        padding: 12px 24px;
+                        border-radius: 30px;
+                        font-size: 14px;
+                        font-weight: bold;
+                        z-index: 9999;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                        opacity: 0;
+                        transition: opacity 0.3s ease;
+                    }
+                    
+                    .toast-show {
+                        opacity: 1;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            // ใส่ข้อความและแสดง toast
+            toast.textContent = message;
+            toast.classList.add('toast-show');
+
+            // ซ่อน toast หลังจาก 3 วินาที
+            setTimeout(() => {
+                toast.classList.remove('toast-show');
+            }, 3000);
+        }
+
+    </script>
+</body>
+
+</html>

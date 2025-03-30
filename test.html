@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Glasgow Coma Scale - Faculty of Nursing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            width: 100%;
+            height: 680px;
+            /* ความสูงคงที่สำหรับเดสก์ท็อป */
+            position: relative;
+            background: #D84315;
+            color: white;
+            overflow: hidden;
+            border-bottom: 4px solid #FF6B00;
+        }
+
+        .university-footer-logo {
+            height: 40px;
+            width: auto;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .header-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: absolute;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .test-container {
+            background-color: white;
+            padding: 40px 25px;
+            /* เพิ่มระยะขอบเพื่อให้มีพื้นที่มากขึ้น */
+        }
+
+        .level-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            /* เพิ่มระยะห่างระหว่างแต่ละ level */
+            border-bottom: 1px solid #eee;
+            padding-bottom: 40px;
+            /* เพิ่มระยะห่างด้านล่าง */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 10px;
+            /* เพิ่มความโค้งมนของขอบ */
+            overflow: hidden;
+            padding: 25px;
+            /* เพิ่มระยะขอบภายใน */
+        }
+
+        .level-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff9e6;
+        }
+
+        .level-item::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #FF6B00;
+            transition: width 0.3s ease;
+        }
+
+        .level-item:hover::after {
+            width: 100%;
+        }
+
+        .level-video-container {
+            width: 280px;
+            /* เพิ่มขนาดจาก 200px */
+            height: 160px;
+            /* เพิ่มขนาดจาก 120px */
+            border-radius: 10px;
+            /* เพิ่มความโค้งมนของขอบ */
+            overflow: hidden;
+            position: relative;
+            margin-right: 30px;
+            /* เพิ่มระยะห่างจากข้อความ */
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .level-item:hover .level-video-container {
+            transform: scale(1.05);
+        }
+
+        .level-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .level-title {
+            font-size: 42px;
+            /* เพิ่มขนาดจาก 36px */
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            z-index: 2;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 107, 0, 0.3);
+            z-index: 1;
+            transition: background-color 0.3s ease;
+        }
+
+        .level-item:hover .video-overlay {
+            background-color: rgba(255, 107, 0, 0.5);
+        }
+
+        .lets-go {
+            background-color: #FFD700;
+            color: #333;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            z-index: 2;
+        }
+
+        .level-info {
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .level-info h2 {
+            font-size: 28px;
+            /* เพิ่มขนาดจาก 24px */
+            color: #333;
+            margin-bottom: 15px;
+            /* เพิ่มระยะห่าง */
+            transition: color 0.3s ease;
+        }
+
+        .level-item:hover .level-info h2 {
+            color: #FF6B00;
+        }
+
+        .level-info p {
+            color: #666;
+            line-height: 1.8;
+            /* เพิ่มระยะห่างระหว่างบรรทัด */
+            font-size: 16px;
+            /* กำหนดขนาดตัวอักษร */
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+
+        .university-footer-logo {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .footer-text {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .level-button {
+            display: inline-block;
+            background-color: #FF6B00;
+            color: white;
+            padding: 10px 20px;
+            /* เพิ่มขนาดปุ่ม */
+            border-radius: 6px;
+            /* เพิ่มความโค้งมนของขอบ */
+            margin-top: 15px;
+            /* เพิ่มระยะห่างจากข้อความ */
+            font-weight: bold;
+            font-size: 16px;
+            /* เพิ่มขนาดตัวอักษร */
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .level-item:hover .level-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .level-item:hover .level-button {
+            animation: pulse 1.5s infinite;
+        }
+
+        
+/* Updated Beautiful White Home Button Styles */
+.home-button {
+    position: absolute; /* Positioned within the header */
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.9); /* White with slight transparency */
+    color: #FF6B00; /* Orange icon color for contrast */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Softer shadow */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.6); /* Subtle border */
+}
+
+.home-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    background-color: white; /* Fully white on hover */
+    color: #FFD700; /* Gold color on hover */
+    border-color: white;
+}
+
+.home-button i {
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+.home-button:hover i {
+    transform: scale(1.2);
+}
+
+.home-button::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, rgba(255,255,255,0) 70%); /* Subtle gold glow */
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 0.5s;
+}
+
+.home-button:hover::before {
+    transform: scale(2);
+    opacity: 0;
+}
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .home-button-text {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            left: 80px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        .home-button:hover .home-button-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Responsive adjustments - ปรับปรุงแล้ว */
+        @media (max-width: 767px) {
+            .header {
+                height: 400px;
+                /* ลดความสูงบนมือถือ */
+            }
+
+            .level-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+                /* ปรับระยะขอบให้เหมาะกับมือถือ */
+                margin-bottom: 30px;
+                /* ปรับระยะห่างให้เหมาะกับมือถือ */
+            }
+
+            .level-video-container {
+                width: 100%;
+                height: 200px;
+                /* เพิ่มความสูงเพื่อให้เห็นวิดีโอชัดเจนขึ้นบนมือถือ */
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .level-info h2 {
+                font-size: 24px;
+                /* ปรับขนาดสำหรับมือถือ */
+            }
+
+            .level-info p {
+                font-size: 15px;
+                /* ปรับขนาดสำหรับมือถือ */
+            }
+
+            .home-button {
+                top: 15px;
+                left: 15px;
+                width: 50px;
+                height: 50px;
+            }
+
+            .home-button i {
+                font-size: 20px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .university-footer-logo {
+                height: 40px;
+                margin-right: 0;
+            }
+        }
+
+        /* สำหรับอุปกรณ์ขนาดเล็กมาก */
+        @media (max-width: 480px) {
+            .header {
+                height: 300px;
+                /* ลดความสูงเพิ่มเติมสำหรับอุปกรณ์ขนาดเล็กมาก */
+            }
+
+            .level-video-container {
+                height: 180px;
+                /* ปรับขนาดวิดีโอสำหรับอุปกรณ์ขนาดเล็กมาก */
+            }
+
+            .level-info p {
+                font-size: 14px;
+            }
+
+            .test-container {
+                padding: 20px 15px;
+            }
+
+            .level-item {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .footer-text {
+                font-size: 14px;
+            }
+
+            .level-button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <!-- Header Section with Video Background -->
+        <div class="header">
+            <!-- Home Button - Fixed on top of all content -->
+            <div class="home-button" onclick="goToHome()">
+                <i class="fas fa-home"></i>
+                <span class="home-button-text">กลับหน้าหลัก</span>
+            </div>
+
+            <video class="header-video" autoplay muted loop playsinline>
+                <source src="/assest/video_bg/test.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="header-overlay"></div>
+            <div class="header-content">
+                <!-- You can add header content here if needed -->
+            </div>
+        </div>
+
+        <!-- Test Levels Container -->
+        <div class="test-container">
+            <!-- Level 1 -->
+            <div class="level-item" onclick="handleLevelClick(1)">
+                <div class="level-video-container">
+                    <div class="video-overlay"></div>
+                    <video class="level-video" autoplay muted loop playsinline>
+                        <source src="/assest/video_bg/level1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="level-info">
+                    <h2>Level 1</h2>
+                    <p>
+                        ทดสอบความรู้ระดับพื้นฐานเกี่ยวกับการประเมินด้วย Glasgow Coma Scale (GCS)
+                        เหมาะสำหรับผู้เริ่มต้นเรียนรู้
+                        การทดสอบนี้จะครอบคลุมความเข้าใจพื้นฐานเกี่ยวกับคะแนนและการตอบสนองของผู้ป่วย
+                    </p>
+                    <div class="level-button">เริ่มทดสอบ</div>
+                </div>
+            </div>
+
+            <!-- Level 2 -->
+            <div class="level-item" onclick="handleLevelClick(2)">
+                <div class="level-video-container">
+                    <div class="video-overlay"></div>
+                    <video class="level-video" autoplay muted loop playsinline>
+                        <source src="/assest/video_bg/level2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="level-info">
+                    <h2>Level 2</h2>
+                    <p>
+                        ทดสอบความรู้ระดับกลางเกี่ยวกับการประเมินด้วย Glasgow Coma Scale (GCS)
+                        เหมาะสำหรับผู้ที่มีความเข้าใจพื้นฐานแล้ว
+                        การทดสอบนี้จะเน้นการวิเคราะห์อาการและการเปลี่ยนแปลงของผู้ป่วย
+                    </p>
+                    <div class="level-button">เริ่มทดสอบ</div>
+                </div>
+            </div>
+
+            <!-- Level 3 -->
+            <div class="level-item" onclick="handleLevelClick(3)">
+                <div class="level-video-container">
+                    <div class="video-overlay"></div>
+                    <video class="level-video" autoplay muted loop playsinline>
+                        <source src="/assest/video_bg/level3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="level-info">
+                    <h2>Level 3</h2>
+                    <p>
+                        ทดสอบความรู้ระดับสูงเกี่ยวกับการประเมินด้วย Glasgow Coma Scale (GCS)
+                        เหมาะสำหรับผู้ที่มีประสบการณ์
+                        การทดสอบนี้จะรวมถึงกรณีศึกษาที่ซับซ้อนและการประเมินผู้ป่วยในสถานการณ์วิกฤต
+                    </p>
+                    <div class="level-button">เริ่มทดสอบ</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <img src="/assest/images/university_logo.jpg" alt="University Logo" class="university-footer-logo">
+            <span class="footer-text">GCS SSKRU Faculty of nursing</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const videos = document.querySelectorAll('video');
+
+            // ตั้งค่าทุกวิดีโอให้เล่นอัตโนมัติและลูป
+            videos.forEach(video => {
+                // ตั้งค่า loop attribute
+                video.loop = true;
+                video.muted = true;
+                video.playsinline = true;
+                video.autoplay = true;
+
+                // เล่นวิดีโอโดยอัตโนมัติและจัดการข้อยกเว้น
+                const playPromise = video.play();
+
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Auto-play was prevented. Trying alternative method.");
+
+                        // สร้างฟังก์ชันสำหรับการใช้งานผู้ใช้เพื่อเริ่มเล่นวิดีโอ
+                        const handleUserInteraction = () => {
+                            video.play();
+                            // ลบตัวจัดการเหตุการณ์เมื่อวิดีโอเริ่มเล่น
+                            document.removeEventListener('click', handleUserInteraction);
+                            document.removeEventListener('touchstart', handleUserInteraction);
+                            document.removeEventListener('keydown', handleUserInteraction);
+                        };
+
+                        // รอการโต้ตอบของผู้ใช้เพื่อเริ่มเล่นวิดีโอ
+                        document.addEventListener('click', handleUserInteraction);
+                        document.addEventListener('touchstart', handleUserInteraction);
+                        document.addEventListener('keydown', handleUserInteraction);
+                    });
+                }
+            });
+
+            // เพิ่มเอฟเฟกต์ลอยสำหรับปุ่มโฮม
+            const homeButton = document.querySelector('.home-button');
+            homeButton.style.animation = 'float 3s ease-in-out infinite';
+        });
+
+        // Function to handle level click
+        function handleLevelClick(level) {
+            console.log(`Level ${level} clicked`);
+            
+            // Add visual feedback for click
+            const levelItem = document.querySelectorAll('.level-item')[level - 1];
+            levelItem.style.transform = 'scale(0.98)';
+        
+            setTimeout(() => {
+                levelItem.style.transform = 'translateY(-5px)';
+                
+                // Navigate to level.html with the selected level parameter
+                window.location.href = `/level.html?level=${level}`;
+            }, 150);
+        }
+
+        // Function to navigate to home page
+        function goToHome() {
+            console.log("Going to home page");
+            // Add home navigation here
+            window.location.href = "/index.html";
+
+            // Visual feedback for button click
+            const homeButton = document.querySelector('.home-button');
+            homeButton.style.transform = 'scale(0.9)';
+
+            setTimeout(() => {
+                homeButton.style.transform = 'scale(1.1)';
+            }, 150);
+        }
+    </script>
+</body>
+
+</html>

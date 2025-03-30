@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glasgow Coma Scale - Faculty of Nursing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            width: 100%;
+            height: 680px;
+            position: relative;
+            background: #D84315;
+            color: white;
+            overflow: hidden;
+            border-bottom: 4px solid #FF6B00;
+        }
+
+        .university-footer-logo {
+            height: 40px;
+            width: auto;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .header-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: absolute;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .university-logo {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: #FF6B00;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .sections-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 30px 20px;
+            background-color: white;
+        }
+
+        @media (min-width: 768px) {
+            .sections-container {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 40px;
+            }
+
+            .section-box {
+                width: calc(50% - 10px);
+            }
+        }
+
+        .section-box {
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .section-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-video-container {
+            width: 100%;
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio */
+            overflow: hidden;
+            background: linear-gradient(135deg, #FF6B00, #FF4500);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%25' gradientTransform='rotate(240)'%3E%3Cstop offset='0' stop-color='%23FF6B00'/%3E%3Cstop offset='1' stop-color='%23FF4500'/%3E%3C/linearGradient%3E%3Cpattern patternUnits='userSpaceOnUse' id='b' width='540' height='450' x='0' y='0' viewBox='0 0 1080 900'%3E%3Cg fill-opacity='0.1'%3E%3Cpolygon fill='%23444' points='90 150 0 300 180 300'/%3E%3Cpolygon points='90 150 180 0 0 0'/%3E%3Cpolygon fill='%23AAA' points='270 150 360 0 180 0'/%3E%3Cpolygon fill='%23DDD' points='450 150 360 300 540 300'/%3E%3Cpolygon fill='%23999' points='450 150 540 0 360 0'/%3E%3Cpolygon points='630 150 540 300 720 300'/%3E%3Cpolygon fill='%23DDD' points='630 150 720 0 540 0'/%3E%3Cpolygon fill='%23444' points='810 150 720 300 900 300'/%3E%3Cpolygon fill='%23FFF' points='810 150 900 0 720 0'/%3E%3Cpolygon fill='%23DDD' points='990 150 900 300 1080 300'/%3E%3Cpolygon fill='%23444' points='990 150 1080 0 900 0'/%3E%3Cpolygon fill='%23DDD' points='90 450 0 600 180 600'/%3E%3Cpolygon points='90 450 180 300 0 300'/%3E%3Cpolygon fill='%23666' points='270 450 180 600 360 600'/%3E%3Cpolygon fill='%23AAA' points='270 450 360 300 180 300'/%3E%3Cpolygon fill='%23DDD' points='450 450 360 600 540 600'/%3E%3Cpolygon fill='%23999' points='450 450 540 300 360 300'/%3E%3Cpolygon fill='%23999' points='630 450 540 600 720 600'/%3E%3Cpolygon fill='%23FFF' points='630 450 720 300 540 300'/%3E%3Cpolygon points='810 450 720 600 900 600'/%3E%3Cpolygon fill='%23DDD' points='810 450 900 300 720 300'/%3E%3Cpolygon fill='%23AAA' points='990 450 900 600 1080 600'/%3E%3Cpolygon fill='%23444' points='990 450 1080 300 900 300'/%3E%3Cpolygon fill='%23222' points='90 750 0 900 180 900'/%3E%3Cpolygon points='270 750 180 900 360 900'/%3E%3Cpolygon fill='%23DDD' points='270 750 360 600 180 600'/%3E%3Cpolygon points='450 750 540 600 360 600'/%3E%3Cpolygon points='630 750 540 900 720 900'/%3E%3Cpolygon fill='%23444' points='630 750 720 600 540 600'/%3E%3Cpolygon fill='%23AAA' points='810 750 720 900 900 900'/%3E%3Cpolygon fill='%23666' points='810 750 900 600 720 600'/%3E%3Cpolygon fill='%23999' points='990 750 900 900 1080 900'/%3E%3Cpolygon fill='%23999' points='180 0 90 150 270 150'/%3E%3Cpolygon fill='%23444' points='360 0 270 150 450 150'/%3E%3Cpolygon fill='%23FFF' points='540 0 450 150 630 150'/%3E%3Cpolygon points='900 0 810 150 990 150'/%3E%3Cpolygon fill='%23222' points='0 300 -90 450 90 450'/%3E%3Cpolygon fill='%23FFF' points='0 300 90 150 -90 150'/%3E%3Cpolygon fill='%23FFF' points='180 300 90 450 270 450'/%3E%3Cpolygon fill='%23666' points='180 300 270 150 90 150'/%3E%3Cpolygon fill='%23222' points='360 300 270 450 450 450'/%3E%3Cpolygon fill='%23FFF' points='360 300 450 150 270 150'/%3E%3Cpolygon fill='%23444' points='540 300 450 450 630 450'/%3E%3Cpolygon fill='%23222' points='540 300 630 150 450 150'/%3E%3Cpolygon fill='%23AAA' points='720 300 630 450 810 450'/%3E%3Cpolygon fill='%23666' points='720 300 810 150 630 150'/%3E%3Cpolygon fill='%23FFF' points='900 300 810 450 990 450'/%3E%3Cpolygon fill='%23999' points='900 300 990 150 810 150'/%3E%3Cpolygon points='0 600 -90 750 90 750'/%3E%3Cpolygon fill='%23666' points='0 600 90 450 -90 450'/%3E%3Cpolygon fill='%23AAA' points='180 600 90 750 270 750'/%3E%3Cpolygon fill='%23444' points='180 600 270 450 90 450'/%3E%3Cpolygon fill='%23444' points='360 600 270 750 450 750'/%3E%3Cpolygon fill='%23999' points='360 600 450 450 270 450'/%3E%3Cpolygon fill='%23666' points='540 600 630 450 450 450'/%3E%3Cpolygon fill='%23222' points='720 600 630 750 810 750'/%3E%3Cpolygon fill='%23FFF' points='900 600 810 750 990 750'/%3E%3Cpolygon fill='%23222' points='900 600 990 450 810 450'/%3E%3Cpolygon fill='%23DDD' points='0 900 90 750 -90 750'/%3E%3Cpolygon fill='%23444' points='180 900 270 750 90 750'/%3E%3Cpolygon fill='%23FFF' points='360 900 450 750 270 750'/%3E%3Cpolygon fill='%23AAA' points='540 900 630 750 450 750'/%3E%3Cpolygon fill='%23FFF' points='720 900 810 750 630 750'/%3E%3Cpolygon fill='%23222' points='900 900 990 750 810 750'/%3E%3Cpolygon fill='%23222' points='1080 300 990 450 1170 450'/%3E%3Cpolygon fill='%23FFF' points='1080 300 1170 150 990 150'/%3E%3Cpolygon points='1080 600 990 750 1170 750'/%3E%3Cpolygon fill='%23666' points='1080 600 1170 450 990 450'/%3E%3Cpolygon fill='%23DDD' points='1080 900 1170 750 990 750'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' fill='url(%23a)' width='100%25' height='100%25'/%3E%3Crect x='0' y='0' fill='url(%23b)' width='100%25' height='100%25'/%3E%3C/svg%3E");
+            background-size: cover;
+        }
+
+        .section-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(1.3) contrast(1.1) saturate(1.2);
+        }
+
+        .section-title-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .section-box:hover .section-title-overlay {
+            background-color: rgba(255, 107, 0, 0.4);
+        }
+
+        /* Modified section-title for description text */
+        .section-title {
+            display: inline;
+            font-weight: bold;
+            color: #FF6B00;
+            margin-right: 8px;
+        }
+
+        .section-content {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            border-top: 3px solid #FF6B00;
+        }
+
+        .icon-placeholder {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            background-color: #FF6B00;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .section-text {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+
+        .university-footer-logo {
+            height: 50px;
+            width: auto;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: rgba(255, 255, 153, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: sparkle-animation 4s infinite;
+        }
+
+        @keyframes sparkle-animation {
+            0% {
+                transform: scale(0.3);
+                opacity: 0.2;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(0.3);
+                opacity: 0.2;
+            }
+        }
+
+        /* Modified Responsive adjustments */
+        @media (max-width: 767px) {
+            .header {
+                height: 220px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .section-title-overlay {
+                font-size: 24px;
+            }
+
+            .section-content {
+                padding: 15px;
+            }
+
+            .icon-placeholder {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+                margin-right: 10px;
+            }
+
+            .section-text {
+                font-size: 14px;
+            }
+
+            .footer-text {
+                font-weight: bold;
+                font-size: 16px;
+            }
+
+            /* Fixed video container for mobile */
+            .section-video-container {
+                padding-bottom: 65%; /* Increased from 56.25% to ensure full visibility */
+                height: 0;
+                overflow: hidden;
+            }
+
+            .section-video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Ensures the video covers the container */
+            }
+            
+            /* Make section boxes display fully */
+            .section-box {
+                margin-bottom: 15px;
+                display: block;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header Section with Video Background -->
+        <div class="header">
+            <video class="header-video" autoplay muted loop playsinline>
+                <source src="/assest/video_bg/background.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="header-overlay"></div>
+        </div>
+
+        <!-- Sections Container -->
+        <div class="sections-container">
+            <!-- Learning Section with Direct Video -->
+            <div class="section-box" id="learning-box">
+                <div class="section-video-container">
+                    <video class="section-video" autoplay muted loop playsinline>
+                        <source src="/assest/video_bg/learn.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="section-content">
+                    <div class="icon-placeholder">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="section-text">
+                        <span class="section-title">Learning Section:</span>
+                        You can learn about the Neurolog assessment with Glasgow coma scale assessment from our tutorial
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Section with Direct Video -->
+            <div class="section-box" id="test-box">
+                <div class="section-video-container">
+                    <video class="section-video" autoplay muted loop playsinline>
+                        <source src="/assest/video_bg/test.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="section-content">
+                    <div class="icon-placeholder">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="section-text">
+                        <span class="section-title">Test Section:</span>
+                        You can test your Neurological assessment potential with our Glasgow coma scale assessment
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <img src="/assest/images/university_logo.jpg" alt="University Logo" class="university-footer-logo">
+            <span class="footer-text">GCS SSKRU Faculty of nursing</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const videos = document.querySelectorAll('video');
+    
+            videos.forEach(video => {
+                video.loop = true;
+                video.muted = true;
+                video.playsinline = true;
+                video.autoplay = true;
+    
+                const playPromise = video.play();
+    
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Auto-play was prevented. Trying alternative method.");
+    
+                        const handleUserInteraction = () => {
+                            video.play();
+                            document.removeEventListener('click', handleUserInteraction);
+                            document.removeEventListener('touchstart', handleUserInteraction);
+                            document.removeEventListener('keydown', handleUserInteraction);
+                        };
+    
+                        document.addEventListener('click', handleUserInteraction);
+                        document.addEventListener('touchstart', handleUserInteraction);
+                        document.addEventListener('keydown', handleUserInteraction);
+                    });
+                }
+            });
+            
+            const learnBox = document.getElementById('learning-box');
+            const testBox = document.getElementById('test-box');
+            
+            if (learnBox) {
+                learnBox.addEventListener('click', function() {
+                    window.location.href = 'learn.html';
+                });
+                learnBox.style.cursor = 'pointer';
+            }
+            
+            if (testBox) {
+                testBox.addEventListener('click', function(e) {
+                    window.location.href = 'test.html';
+                    e.stopPropagation();
+                });
+                testBox.style.cursor = 'pointer';
+            }
+        });
+    </script>
+</body>
+
+</html>
