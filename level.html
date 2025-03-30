@@ -60,26 +60,27 @@
             border-bottom: 4px solid #FF6B00;
         }
         
-        .header-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(1.2) contrast(1.1);
-        }
-        
-        .header-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-        
+        /* ปรับค่า filter ของวิดีโอเพื่อเพิ่มความสดใส */
+.header-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(1.2) contrast(1.3) saturate(1.7); /* เพิ่มค่าให้สูงขึ้น */
+}
+
+/* ลดความเข้มของการซ้อนทับ */
+.header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.05); /* ลดความทึบแสงจาก 0.15 เป็น 0.05 */
+    z-index: 1;
+}
         .header-content {
             position: absolute;
             z-index: 2;
@@ -103,8 +104,10 @@
         
         .level-subtitle {
             font-size: 24px;
-            color: #FFD700;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            color: #FFEA00; /* เปลี่ยนจาก #FFD700 เป็นสีเหลืองสว่างกว่า */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* เพิ่มเงาให้เข้มขึ้น */
+            font-weight: bold; /* เพิ่มความหนาของตัวอักษร */
+            letter-spacing: 1px; /* เพิ่มระยะห่างระหว่างตัวอักษร */
         }
         
         .content-container {

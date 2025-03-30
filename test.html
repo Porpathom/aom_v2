@@ -50,18 +50,20 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: brightness(1.2) contrast(1.1);
+            filter: brightness(1.4) contrast(1.2) saturate(1.5);
         }
-
+        
+        /* Lighten the header overlay to let more color through */
         .header-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.15); /* Reduced opacity from 0.2 to 0.15 */
             z-index: 1;
         }
+        
 
         .header-content {
             position: absolute;
@@ -153,6 +155,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: brightness(1.3) contrast(1.2) saturate(1.4); /* Added filter for level videos */
         }
 
         .level-title {
@@ -175,13 +178,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 107, 0, 0.3);
+            background-color: rgba(255, 107, 0, 0.25); /* Reduced from 0.3 */
             z-index: 1;
             transition: background-color 0.3s ease;
         }
-
+        
         .level-item:hover .video-overlay {
-            background-color: rgba(255, 107, 0, 0.5);
+            background-color: rgba(255, 107, 0, 0.4); /* Reduced from 0.5 */
         }
 
         .lets-go {
