@@ -1058,6 +1058,7 @@ function displayVideoSources() {
       const videoElement = item.querySelector('video');
       const imageElement = item.querySelector('img');
       
+      // Process element and extract information
       if (videoElement) {
         // Get the source element and its src attribute
         const sourceElement = videoElement.querySelector('source');
@@ -1065,12 +1066,15 @@ function displayVideoSources() {
           const sourcePath = sourceElement.getAttribute('src');
           console.log(`Found video source: ${sourcePath}`);
           
+          // Extract information from the path pattern
+          const infoText = extractInformationFromPath(sourcePath);
+          
           // Check if source info already exists to prevent duplicates
           if (!item.querySelector('.source-path-info')) {
             // Create a source info element
             const sourceInfo = document.createElement('div');
             sourceInfo.className = 'source-path-info';
-            sourceInfo.innerHTML = `<i class="fas fa-folder"></i> Source: ${sourcePath}`;
+            sourceInfo.innerHTML = `<i class="fas fa-folder"></i> ${infoText}`;
             
             // Append to media content
             const mediaContent = item.querySelector('.media-content');
@@ -1089,12 +1093,15 @@ function displayVideoSources() {
         const imagePath = imageElement.getAttribute('src');
         console.log(`Found image source: ${imagePath}`);
         
+        // Extract information from the path pattern
+        const infoText = extractInformationFromPath(imagePath);
+        
         // Check if source info already exists to prevent duplicates
         if (!item.querySelector('.source-path-info')) {
           // Create a source info element
           const sourceInfo = document.createElement('div');
           sourceInfo.className = 'source-path-info';
-          sourceInfo.innerHTML = `<i class="fas fa-folder"></i> Source: ${imagePath}`;
+          sourceInfo.innerHTML = `<i class="fas fa-folder"></i> ${infoText}`;
           
           // Append to media content
           const mediaContent = item.querySelector('.media-content');
@@ -1108,8 +1115,24 @@ function displayVideoSources() {
       }
     });
   }
-// Initial displayVideoSources call on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', function() {
+  
+  // Function to extract information from path patterns
+  function extractInformationFromPath(path) {
+    // Check if path contains a pattern like /2/2 or /4/4
+    const matches = path.match(/\/(\d+)\/\1/);
+    
+    if (matches && matches[1]) {
+      // Extract the number and create info text
+      const infoNumber = matches[1];
+      return `Information ${infoNumber}`;
+    }
+    
+    // If no specific pattern is found, return the original path
+    return `Source: ${path}`;
+  }
+  
+  // Initial displayVideoSources call on DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', function() {
     // Initial timeout for when the page first loads
     setTimeout(displayVideoSources, 500);
   });
