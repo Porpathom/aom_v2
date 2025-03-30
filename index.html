@@ -256,10 +256,34 @@
 
         /* Modified Responsive adjustments */
         @media (max-width: 767px) {
-            .header {
-                height: 220px;
+            @media (max-width: 767px) {
+                .header {
+                    height: 220px;
+                }
+                
+                .header-video {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover; /* This ensures the video fills the container */
+                }
+                
+                /* Fix the footer layout on mobile */
+                .footer {
+                    display: flex;
+                    flex-direction: row; /* Keep items in a row */
+                    align-items: center;
+                    justify-content: flex-start;
+                    padding: 15px;
+                }
+                
+                .university-footer-logo {
+                    height: 40px; /* Slightly smaller on mobile */
+                    margin-right: 10px;
+                }
             }
-
             .header h1 {
                 font-size: 32px;
             }
