@@ -1037,7 +1037,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            <img src="assest/images/university_logo.jpg" alt="University Logo" class="university-footer-logo">
+            <img src="assets/images/university_logo.jpg" alt="University Logo" class="university-footer-logo">
             <span class="footer-text">GCS SSKRU Faculty of nursing</span>
         </div>
     </div>
@@ -1325,7 +1325,7 @@ function selectOption(element, category) {
             const video = document.createElement('video');
             video.className = 'media-video';
             video.controls = true;
-            video.innerHTML = `<source src="assest/test_v/${scenarioId}/${scenarioId}.mp4" type="video/mp4">`;
+            video.innerHTML = `<source src="assets/test_v/${scenarioId}/${scenarioId}.mp4" type="video/mp4">`;
           
             videoContent.appendChild(video);
             videoItem.appendChild(videoHeader);
@@ -1345,7 +1345,7 @@ function selectOption(element, category) {
           
             const image = document.createElement('img');
             image.className = 'media-image';
-            image.src = `assest/test_v/${scenarioId}/${scenarioId}.jpg`;
+            image.src = `assets/test_v/${scenarioId}/${scenarioId}.jpg`;
             image.alt = `Situation Image`;
           
             imageContent.appendChild(image);
@@ -2337,7 +2337,7 @@ function createFireworks() {
         // Function to set header video based on level
         function setHeaderVideo() {
             const videoSource = document.getElementById('header-video-source');
-            videoSource.src = `assest/video_bg/level${currentLevel}.mp4`;
+            videoSource.src = `assets/video_bg/level${currentLevel}.mp4`;
 
             const headerVideo = document.querySelector('.header-video');
             headerVideo.load();
@@ -2385,7 +2385,7 @@ function createFireworks() {
         function setHeaderContent() {
             // Set header video
             const videoSource = document.getElementById('header-video-source');
-            videoSource.src = `assest/video_bg/level${currentLevel}.mp4`;
+            videoSource.src = `assets/video_bg/level${currentLevel}.mp4`;
         
             const headerVideo = document.querySelector('.header-video');
             headerVideo.load();
