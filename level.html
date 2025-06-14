@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GCS Level Test - Faculty of Nursing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GCS Level Test - Faculty of Nursing</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <style>
         * {
             margin: 0;
             padding: 0;
@@ -945,106 +946,516 @@
                 margin-top: 15px;
             }
         }
+
+        .progress-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+/* สไตล์เมื่อเวลาใกล้หมด */
+#timer-display {
+    font-weight: bold;
+    color: #333;
+}
+
+#timer-display.warning {
+    color: #FF6B00;
+}
+
+#timer-display.danger {
+    color: #F44336;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.video-warning {
+  background-color: #FFF3E0;
+  color: #E65100;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  border-left: 3px solid #FF6B00;
+}
+
+.video-warning i {
+  color: #FF6B00;
+}
+
+.custom-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-alert {
+  background-color: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: alertFadeIn 0.3s ease;
+}
+
+@keyframes alertFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-alert-header {
+  padding: 15px 20px;
+  background-color: #FF6B00;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-alert-header h3 {
+  margin: 0;
+  font-size: 18px;
+  flex-grow: 1;
+}
+
+.custom-alert-close {
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+.custom-alert-close:hover {
+  color: #FFD700;
+}
+
+.custom-alert-body {
+  padding: 20px;
+  font-size: 16px;
+  color: #333;
+}
+
+.custom-alert-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #eee;
+}
+
+.custom-alert-button {
+  background-color: #FF6B00;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.custom-alert-button:hover {
+  background-color: #FF9100;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-play-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  background-color: rgba(21, 248, 104, 0.8);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.video-play-button i {
+  color: white;
+  font-size: 24px;
+}
+
+.video-play-button:hover {
+  background-color: rgb(134, 255, 123);
+  transform: scale(1.1);
+}
+
+/* ซ่อนปุ่มเล่นเมื่อวิดีโอเล่น */
+.video-container video[playing] + .video-play-button {
+  display: none;
+}
+
+.video-stop-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  background-color: rgba(21, 248, 104, 0.8);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.video-stop-button i {
+  color: white;
+  font-size: 24px;
+}
+
+.video-stop-button:hover {
+  background-color: rgb(134, 255, 123);
+  transform: scale(1.1);
+}
+
     </style>
-</head>
+    </head>
 
-<body>
-    <div class="container">
-        <!-- Header Section -->
-        <div class="header">
-            <!-- Home Button -->
-            <div class="home-button" onclick="goToHome()">
-                <i class="fas fa-home"></i>
-                <span class="home-button-text">หน้าหลัก</span>
-            </div>
+    <body>
+        <div class="container">
+            <!-- Header Section -->
+            <div class="header">
+                <!-- Home Button -->
+                <div class="home-button" onclick="goToHome()">
+                    <i class="fas fa-home"></i>
+                    <span class="home-button-text">หน้าหลัก</span>
+                </div>
 
-            <!-- Back Button -->
-            <div class="back-button" onclick="goBack()">
-                <i class="fas fa-arrow-left"></i>
-                <span class="back-button-text">กลับ</span>
-            </div>
-
-            <video class="header-video" autoplay muted loop playsinline>
-                <source src="" type="video/mp4" id="header-video-source">
-                Your browser does not support the video tag.
-            </video>
-            <div class="header-overlay"></div>
-            <div class="header-content">
-                
-            </div>
-        </div>
-
-        <!-- Content Container -->
-        <div class="content-container">
-            <div class="media-container" id="media-container">
-                <!-- Media items will be dynamically added here -->
-
-            </div>
-            <div class="modal-overlay" id="modal-overlay"></div>
-<div class="answer-modal" id="answer-modal">
-    <i class="fas fa-times modal-close" id="modal-close" onclick="hideAnswerSection()"></i>
-    <div class="answer-modal-title">เฉลยคำตอบ</div>
-    <div class="answer-status" id="answer-status">ถูกต้อง!</div>
-    <div class="answer-modal-item">
-        <div class="answer-modal-category">Eye Opening:</div>
-        <div class="answer-modal-value" id="modal-answer-eye"></div>
-    </div>
-    <div class="answer-modal-item">
-        <div class="answer-modal-category">Verbal Response:</div>
-        <div class="answer-modal-value" id="modal-answer-verbal"></div>
-    </div>
-    <div class="answer-modal-item">
-        <div class="answer-modal-category">Motor Response:</div>
-        <div class="answer-modal-value" id="modal-answer-motor"></div>
-    </div>
+                <!-- Back Button -->
+                <div class="back-button" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                    <span class="back-button-text">กลับ</span>
+                </div>
+                <div class="media-content">
+  <div class="video-warning">
+    <i class="fas fa-exclamation-circle"></i> สามารถดูวิดีโอนี้ได้สูงสุด 2 ครั้งเท่านั้น
+  </div>
+  <video class="media-video" controls>
+    <source src="assets/test_v/${scenarioId}/${scenarioId}.mp4" type="video/mp4">
+  </video>
 </div>
+                <video class="header-video" autoplay muted loop playsinline>
+                    <source src type="video/mp4" id="header-video-source">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="header-overlay"></div>
+                <div class="header-content">
 
-            <div class="quiz-container" id="quiz-container">
-                <!-- Progress tracker -->
-                <div class="progress-container">
-                    <div class="progress-title">แบบทดสอบที่ <span id="current-scenario">1</span>/5</div>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="progress-bar" style="width: 20%;"></div>
+                </div>
+            </div>
+
+            
+
+            <!-- Content Container -->
+            <div class="content-container">
+                <div class="media-container" id="media-container">
+                    <!-- Media items will be dynamically added here -->
+
+                </div>
+                <div class="modal-overlay" id="modal-overlay"></div>
+                <div class="answer-modal" id="answer-modal">
+                    <i class="fas fa-times modal-close" id="modal-close"
+                        onclick="hideAnswerSection()"></i>
+                    <div class="answer-modal-title">เฉลยคำตอบ</div>
+                    <div class="answer-status" id="answer-status">ถูกต้อง!</div>
+                    <div class="answer-modal-item">
+                        <div class="answer-modal-category">Eye Opening:</div>
+                        <div class="answer-modal-value"
+                            id="modal-answer-eye"></div>
                     </div>
-                    <div class="progress-stats">
-                        <div>คะแนน: <span id="current-score">0</span>/5</div>
+                    <div class="answer-modal-item">
+                        <div class="answer-modal-category">Verbal
+                            Response:</div>
+                        <div class="answer-modal-value"
+                            id="modal-answer-verbal"></div>
+                    </div>
+                    <div class="answer-modal-item">
+                        <div class="answer-modal-category">Motor Response:</div>
+                        <div class="answer-modal-value"
+                            id="modal-answer-motor"></div>
+                    </div>
+                </div>
+                <div class="custom-alert-overlay" id="custom-alert-overlay" style="display: none;">
+  <div class="custom-alert">
+    <div class="custom-alert-header">
+      <i class="fas fa-exclamation-triangle" id="custom-alert-icon"></i>
+      <h3 id="custom-alert-title">แจ้งเตือน</h3>
+      <i class="fas fa-times custom-alert-close" onclick="hideCustomAlert()"></i>
+    </div>
+    <div class="custom-alert-body" id="custom-alert-message"></div>
+    <div class="custom-alert-footer">
+      <button class="custom-alert-button" onclick="hideCustomAlert()">ตกลง</button>
+    </div>
+  </div>
+</div>
+                <div class="quiz-container" id="quiz-container">
+                    <!-- Progress tracker -->
+                    <div class="progress-container">
+                        <div class="progress-title">แบบทดสอบที่ <span
+                                id="current-scenario">1</span>/5</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progress-bar"
+                                style="width: 20%;"></div>
+                        </div>
+                        <div class="progress-stats">
+                            <div>คะแนน: <span
+                                    id="current-score">0</span>/5</div>
+                            <div>เวลาที่เหลือ: <span
+                                    id="timer-display">5:00</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz sections will be dynamically added here -->
+                    <div id="quiz-sections-container"></div>
+
+                    <!-- Next button -->
+                    <button class="next-button" id="next-button" disabled>
+                        ถัดไป <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                    <!-- Results container (hidden initially) -->
+                    <div class="result-container" id="result-container">
+                        <div class="result-title">ผลการทดสอบ</div>
+                        <div class="result-score"><span
+                                id="final-score">0</span>/5</div>
+                        <div class="result-message"
+                            id="result-message">คุณทำได้ดีมาก!</div>
+                        <button class="result-button" onclick="restartTest()">
+                            ทำแบบทดสอบอีกครั้ง
+                        </button>
+                        <button class="result-button" onclick="goToHome()">
+                            กลับหน้าหลัก
+                        </button>
                     </div>
                 </div>
 
-                <!-- Quiz sections will be dynamically added here -->
-                <div id="quiz-sections-container"></div>
+            </div>
 
-                <!-- Next button -->
-                <button class="next-button" id="next-button" disabled>
-                    ถัดไป <i class="fas fa-arrow-right"></i>
-                </button>
+            <!-- Answer Section (hidden initially) -->
 
-                <!-- Results container (hidden initially) -->
-                <div class="result-container" id="result-container">
-                    <div class="result-title">ผลการทดสอบ</div>
-                    <div class="result-score"><span id="final-score">0</span>/5</div>
-                    <div class="result-message" id="result-message">คุณทำได้ดีมาก!</div>
-                    <button class="result-button" onclick="restartTest()">
-                        ทำแบบทดสอบอีกครั้ง
-                    </button>
-                    <button class="result-button" onclick="goToHome()">
-                        กลับหน้าหลัก
-                    </button>
-                </div>
+            <!-- Footer -->
+            <div class="footer">
+                <img src="assets/images/university_logo.jpg"
+                    alt="University Logo" class="university-footer-logo">
+                <span class="footer-text">GCS SSKRU Faculty of nursing</span>
             </div>
         </div>
 
-        <!-- Answer Section (hidden initially) -->
+        <script>
 
+            // ตัวแปรเพิ่มเติมสำหรับระบบใหม่
+    let videoPlayCount = 0;
+    let timeLeft = 300; // 5 นาที (300 วินาที)
+    let timerInterval;
+    let currentVideoElement;
 
-        <!-- Footer -->
-        <div class="footer">
-            <img src="assets/images/university_logo.jpg" alt="University Logo" class="university-footer-logo">
-            <span class="footer-text">GCS SSKRU Faculty of nursing</span>
-        </div>
-    </div>
+    function showCustomAlert(message, title = 'แจ้งเตือน') {
+  const overlay = document.getElementById('custom-alert-overlay');
+  const alertTitle = document.getElementById('custom-alert-title');
+  const alertMessage = document.getElementById('custom-alert-message');
+  const alertIcon = document.getElementById('custom-alert-icon');
+  
+  alertTitle.textContent = title;
+  alertMessage.textContent = message;
+  
+  // เปลี่ยนสีและไอคอนตามประเภทการแจ้งเตือน
+  if (title.includes('หมดเวลา')) {
+    alertIcon.className = 'fas fa-clock';
+    document.querySelector('.custom-alert-header').style.backgroundColor = '#F44336';
+    document.querySelector('.custom-alert-button').style.backgroundColor = '#F44336';
+  } else if (title.includes('สำเร็จ')) {
+    alertIcon.className = 'fas fa-check-circle';
+    document.querySelector('.custom-alert-header').style.backgroundColor = '#4CAF50';
+    document.querySelector('.custom-alert-button').style.backgroundColor = '#4CAF50';
+  } else {
+    alertIcon.className = 'fas fa-exclamation-triangle';
+    document.querySelector('.custom-alert-header').style.backgroundColor = '#FF6B00';
+    document.querySelector('.custom-alert-button').style.backgroundColor = '#FF6B00';
+  }
+  
+  overlay.style.display = 'flex';
+}
 
-    <script>
+function hideCustomAlert() {
+  document.getElementById('custom-alert-overlay').style.display = 'none';
+}
+
+        // ฟังก์ชันสำหรับเริ่มจับเวลา
+    function startTimer() {
+        clearInterval(timerInterval); // เคลียร์ timer เดิม (ถ้ามี)
+        timeLeft = 300; // รีเซ็ตเวลาเป็น 5 นาที
+        updateTimerDisplay();
+        
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                handleTimeOut();
+            }
+        }, 1000);
+    }
+
+    // ฟังก์ชันแสดงเวลาที่เหลือ
+function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    const timerDisplay = document.getElementById('timer-display');
+    
+    timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    
+    // เปลี่ยนสีตามเวลาที่เหลือ
+    timerDisplay.className = '';
+    if (timeLeft <= 60) {
+        timerDisplay.classList.add('danger');
+    } else if (timeLeft <= 120) {
+        timerDisplay.classList.add('warning');
+    }
+}
+
+function handleTimeOut() {
+  showCustomAlert('เวลาในการทำข้อสอบข้อนี้หมดแล้ว! ระบบจะบันทึกคำตอบปัจจุบันและไปข้อต่อไป', 'หมดเวลา');
+  handleAnswerClick();
+}
+
+function setupVideoTracking(videoElement) {
+  currentVideoElement = videoElement;
+  videoPlayCount = 0;
+  
+  // ปิดการใช้งาน controls มาตรฐาน
+  videoElement.controls = false;
+  
+  // สร้าง container สำหรับปุ่มเล่น
+  const videoContainer = document.createElement('div');
+  videoContainer.className = 'video-container';
+  videoContainer.style.position = 'relative';
+  videoContainer.style.width = '100%';
+  videoContainer.style.height = '100%';
+  
+  // ย้าย video element เข้าไปใน container
+  videoElement.parentNode.insertBefore(videoContainer, videoElement);
+  videoContainer.appendChild(videoElement);
+  
+  // สร้างปุ่มเล่น
+  const playButton = document.createElement('div');
+  playButton.className = 'video-play-button';
+  playButton.innerHTML = '<i class="fas fa-play"></i>';
+  videoContainer.appendChild(playButton);
+
+  // สร้างปุ่มหยุด
+  const stopButton = document.createElement('div');
+  stopButton.className = 'video-stop-button';
+  stopButton.innerHTML = '<i class="fas fa-pause"></i>'; // เปลี่ยนจาก stop เป็น pause
+  stopButton.style.display = 'none'; // ซ่อนไว้ก่อน
+  videoContainer.appendChild(stopButton);
+  
+  // ฟังก์ชันแสดงปุ่มเล่น
+  function showPlayButton() {
+    playButton.style.display = 'flex';
+    stopButton.style.display = 'none';
+  }
+  
+  // ฟังก์ชันซ่อนปุ่มเล่น
+  function hidePlayButton() {
+    playButton.style.display = 'none';
+    stopButton.style.display = 'flex';
+  }
+  
+  // เริ่มต้นแสดงปุ่มเล่น
+  showPlayButton();
+  
+  // ตัวแปรเก็บสถานะว่ากำลังเล่นอยู่หรือไม่
+  let isPlaying = false;
+  
+  // การจัดการการเล่นวิดีโอ
+  playButton.addEventListener('click', function() {
+    if (videoPlayCount >= 2) {
+      showCustomAlert('คุณดูวิดีโอนี้ครบ 2 ครั้งแล้ว', 'จำกัดการเล่น');
+      return;
+    }
+    
+    videoElement.play()
+      .then(() => {
+        hidePlayButton();
+        isPlaying = true;
+      })
+      .catch(error => {
+        console.error('Error playing video:', error);
+      });
+  });
+  
+  // การจัดการการหยุดวิดีโอ (เปลี่ยนเป็น pause แทน stop)
+  stopButton.addEventListener('click', function() {
+    videoElement.pause();
+    showPlayButton();
+    isPlaying = false;
+  });
+  
+  // เมื่อวิดีโอเล่นจบ
+  videoElement.addEventListener('ended', function() {
+    isPlaying = false;
+    // นับรอบเมื่อเล่นจบเท่านั้น
+    videoPlayCount++;
+    console.log(`เล่นจบรอบที่ ${videoPlayCount}`);
+    
+    if (videoPlayCount < 2) {
+      showPlayButton(); // แสดงปุ่มเล่นอีกครั้งสำหรับครั้งที่สอง
+    } else {
+      showCustomAlert('คุณดูวิดีโอนี้ครบ 2 ครั้งแล้ว', 'จำกัดการเล่น');
+    }
+  });
+  
+  // ป้องกันการกรอเวลา
+  videoElement.addEventListener('seeked', function() {
+    // รีเซ็ตกลับไปที่ 0 หากพยายามกรอ
+    if (isPlaying) {
+      videoElement.currentTime = 0;
+    }
+  });
+  
+  videoElement.addEventListener('timeupdate', function() {
+    // ป้องกันการกรอโดยการรีเซ็ตหากพยายามกรอ
+    if (videoElement.currentTime > 0 && videoElement.paused && isPlaying) {
+      videoElement.currentTime = 0;
+    }
+  });
+}
+
+    
 
 // Add this function to your JavaScript code
 // Function to display video sources for all media items
@@ -1332,56 +1743,66 @@ function selectOption(element, category) {
         }
 
         // Function to create media elements for a scenario
-        function createMediaElements(scenarioId) {
-            const mediaContainer = document.getElementById('media-container');
-            mediaContainer.innerHTML = ''; // Clear previous content
-          
-            // Create video container
-            const videoItem = document.createElement('div');
-            videoItem.className = 'media-item';
-          
-            const videoHeader = document.createElement('div');
-            videoHeader.className = 'media-header';
-            videoHeader.innerHTML = `<span>สถานการณ์ - วิดีโอ</span> <span>สถานการณ์ ${currentScenarioIndex + 1}</span>`;
-          
-            const videoContent = document.createElement('div');
-            videoContent.className = 'media-content';
-          
-            const video = document.createElement('video');
-            video.className = 'media-video';
-            video.controls = true;
-            video.innerHTML = `<source src="assets/test_v/${scenarioId}/${scenarioId}.mp4" type="video/mp4">`;
-          
-            videoContent.appendChild(video);
-            videoItem.appendChild(videoHeader);
-            videoItem.appendChild(videoContent);
-            mediaContainer.appendChild(videoItem);
-          
-            // Create image container
-            const imageItem = document.createElement('div');
-            imageItem.className = 'media-item';
-          
-            const imageHeader = document.createElement('div');
-            imageHeader.className = 'media-header';
-            imageHeader.innerHTML = `<span>สถานการณ์ - ภาพประกอบ</span> <span>สถานการณ์ ${currentScenarioIndex + 1}</span>`;
-          
-            const imageContent = document.createElement('div');
-            imageContent.className = 'media-content';
-          
-            const image = document.createElement('img');
-            image.className = 'media-image';
-            image.src = `assets/test_v/${scenarioId}/${scenarioId}.jpg`;
-            image.alt = `Situation Image`;
-          
-            imageContent.appendChild(image);
-            imageItem.appendChild(imageHeader);
-            imageItem.appendChild(imageContent);
-            mediaContainer.appendChild(imageItem);
-            
-            // Call displayVideoSources after creating the media elements
-            // Add a short delay to ensure DOM is updated
-            setTimeout(displayVideoSources, 100);
-          }
+    function createMediaElements(scenarioId) {
+    const mediaContainer = document.getElementById('media-container');
+    mediaContainer.innerHTML = ''; // Clear previous content
+  
+    // Create video container
+    const videoItem = document.createElement('div');
+    videoItem.className = 'media-item';
+  
+    const videoHeader = document.createElement('div');
+    videoHeader.className = 'media-header';
+    videoHeader.innerHTML = `<span>สถานการณ์ - วิดีโอ</span> <span>สถานการณ์ ${currentScenarioIndex + 1}</span>`;
+  
+    const videoContent = document.createElement('div');
+    videoContent.className = 'media-content';
+  
+    // Add warning message
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'video-warning';
+    warningDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> สามารถดูวิดีโอนี้ได้สูงสุด 2 ครั้งเท่านั้น';
+    videoContent.appendChild(warningDiv);
+  
+    const video = document.createElement('video');
+    video.className = 'media-video';
+    video.innerHTML = `<source src="assets/test_v/${scenarioId}/${scenarioId}.mp4" type="video/mp4">`;
+  
+    videoContent.appendChild(video);
+    videoItem.appendChild(videoHeader);
+    videoItem.appendChild(videoContent);
+    mediaContainer.appendChild(videoItem);
+  
+    // ตั้งค่าติดตามการเล่นวิดีโอแบบใหม่
+    setupVideoTracking(video);
+  
+    // Create image container
+    const imageItem = document.createElement('div');
+    imageItem.className = 'media-item';
+  
+    const imageHeader = document.createElement('div');
+    imageHeader.className = 'media-header';
+    imageHeader.innerHTML = `<span>สถานการณ์ - ภาพประกอบ</span> <span>สถานการณ์ ${currentScenarioIndex + 1}</span>`;
+  
+    const imageContent = document.createElement('div');
+    imageContent.className = 'media-content';
+  
+    const image = document.createElement('img');
+    image.className = 'media-image';
+    image.src = `assets/test_v/${scenarioId}/${scenarioId}.jpg`;
+    image.alt = `Situation Image`;
+  
+    imageContent.appendChild(image);
+    imageItem.appendChild(imageHeader);
+    imageItem.appendChild(imageContent);
+    mediaContainer.appendChild(imageItem);
+    
+    // เริ่มจับเวลาเมื่อโหลดสถานการณ์ใหม่
+    startTimer();
+    
+    // Call displayVideoSources after creating the media elements
+    setTimeout(displayVideoSources, 100);
+}
 
         // Function to update progress
         // Function to update progress
@@ -1501,10 +1922,9 @@ function hideAnswerSection() {
     document.getElementById('answer-modal').style.display = 'none';
 }
 
-// Modify the handleNextClick function to use a longer timeout
-// Modify the handleNextClick function to include scrolling functionality
+
 function handleNextClick() {
-    // Move to the next scenario
+clearInterval(timerInterval); // เคลียร์ timer
     currentScenarioIndex++;
     
     // If all scenarios are completed, show results
@@ -1538,9 +1958,11 @@ function handleNextClick() {
       });
     }
 }
+
 // ปรับปรุงฟังก์ชัน showResults
 // ฟังก์ชันแสดงผลลัพธ์และเอฟเฟกต์ confetti
 function showResults() {
+    clearInterval(timerInterval); // เคลียร์ timer เมื่อแสดงผลลัพธ์
     // ซ่อนส่วนแบบทดสอบและปุ่มถัดไป
     document.getElementById('quiz-sections-container').style.display = 'none';
     document.getElementById('next-button').style.display = 'none';
@@ -1637,6 +2059,19 @@ function showResults() {
             this.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
         };
     });
+
+    // เพิ่มการบันทึกผลลัพธ์ถ้าผ่าน
+            const passingScore = 3; // คะแนนขั้นต่ำที่ถือว่าผ่าน
+            if (score >= passingScore) {
+                const passedLevels = JSON.parse(localStorage.getItem('passedLevels') || '{}');
+                passedLevels[currentLevel] = true;
+                localStorage.setItem('passedLevels', JSON.stringify(passedLevels));
+                
+                // แสดงข้อความพิเศษถ้าผ่าน
+                if (currentLevel < 3) {
+                    resultMessage.textContent += `\nตอนนี้คุณสามารถทำ Level ${currentLevel + 1} ได้แล้ว!`;
+                }
+            }
     
     // สร้างเอฟเฟกต์พิเศษสำหรับแสดงคะแนน
     const scoreElement = document.querySelector('.result-score');
@@ -2090,25 +2525,27 @@ function createConfettiPiece(colors, types) {
 }
 
 // Function to restart the test
-function restartTest() {
-    // Reset variables
-    currentScenarioIndex = 0;
-    score = 0;
+    function restartTest() {
+        // Reset variables
+        currentScenarioIndex = 0;
+        score = 0;
+        videoPlayCount = 0;
+        clearInterval(timerInterval);
 
-    // Select new random scenarios
-    selectedScenarios = selectRandomScenarios();
+        // Select new random scenarios
+        selectedScenarios = selectRandomScenarios();
 
-    // Hide results
-    document.getElementById('result-container').style.display = 'none';
+        // Hide results
+        document.getElementById('result-container').style.display = 'none';
 
-    // Show quiz content
-    document.getElementById('quiz-sections-container').style.display = 'block';
-    document.getElementById('next-button').style.display = 'block';
-    document.getElementById('media-container').style.display = 'flex';
+        // Show quiz content
+        document.getElementById('quiz-sections-container').style.display = 'block';
+        document.getElementById('next-button').style.display = 'block';
+        document.getElementById('media-container').style.display = 'flex';
 
-    // Load the first scenario
-    loadScenario(selectedScenarios[currentScenarioIndex]);
-}
+        // Load the first scenario
+        loadScenario(selectedScenarios[currentScenarioIndex]);
+    }
 
 // เพิ่มเอฟเฟกต์ลอยสำหรับปุ่มโฮม
 const homeButton = document.querySelector('.home-button,.back-button');
@@ -2244,6 +2681,6 @@ function handleAnswerClick() {
             initPage();
         });
     </script>
-</body>
+    </body>
 
 </html>

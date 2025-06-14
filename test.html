@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test - Glasgow Coma Scale - Faculty of Nursing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test - Glasgow Coma Scale - Faculty of Nursing</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <style>
         * {
             margin: 0;
             padding: 0;
@@ -475,99 +476,448 @@
                 font-size: 14px;
             }
         }
+/* ปรับปรุงสไตล์สำหรับเลเวลที่ถูกล็อก */
+.level-locked {
+    position: relative;
+    opacity: 0.85;
+    pointer-events: none;
+    filter: grayscale(0.3);
+    transition: all 0.3s ease;
+}
+
+.lock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    border-radius: 10px;
+}
+
+.lock-icon {
+    position: absolute;
+    top: 35%; /* ปรับตำแหน่งไอคอนให้อยู่ด้านบน */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.9);
+    z-index: 3;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    animation: pulse 1.5s infinite;
+}
+
+
+
+        .reset-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #FF6B00;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    animation: float 3s ease-in-out infinite;
+}
+
+.reset-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    color: #FFD700;
+    border-color: white;
+}
+
+.reset-button i {
+    font-size: 24px;
+    transition: all 0.3s ease;
+}
+
+.reset-button:hover i {
+    transform: scale(1.2);
+}
+
+.reset-button::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 0.5s;
+}
+
+.reset-button:hover::before {
+    transform: scale(2);
+    opacity: 0;
+}
+
+.reset-button-text {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    right: 80px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+}
+
+.reset-button:hover .reset-button-text {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Level Info Modal Styles */
+.level-info-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.level-info-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.level-info-content {
+    background-color: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.level-info-modal.active .level-info-content {
+    transform: translateY(0);
+}
+
+.level-info-header {
+    background: linear-gradient(135deg, #D84315, #FF6B00);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.level-info-header h2 {
+    font-size: 24px;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.level-info-body {
+    padding: 25px;
+    color: #333;
+    line-height: 1.7;
+}
+
+.level-info-point {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: flex-start;
+}
+
+.level-info-point i {
+    color: #FF6B00;
+    font-size: 18px;
+    margin-right: 12px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.level-info-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 25px;
+    border-top: 1px solid #eee;
+}
+
+.level-info-button {
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 16px;
+}
+
+.level-info-confirm {
+    background: linear-gradient(135deg, #D84315, #FF6B00);
+    color: white;
+}
+
+.level-info-confirm:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(216, 67, 21, 0.4);
+}
+
+.level-info-cancel {
+    background-color: #f5f5f5;
+    color: #666;
+}
+
+.level-info-cancel:hover {
+    background-color: #e0e0e0;
+}
+
+/* Animation for important points */
+@keyframes highlightPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.highlight-point {
+    font-weight: bold;
+    color: #D84315;
+    animation: highlightPulse 2s infinite;
+    display: inline-block;
+    padding: 0 5px;
+}
+
     </style>
-</head>
+    </head>
 
-<body>
+    <body>
 
+        <div class="container">
+            <!-- Header Section with Video Background -->
+            <div class="header">
+                <!-- Home Button - Fixed on top of all content -->
+                <div class="home-button" onclick="goToHome()">
+                    <i class="fas fa-home"></i>
+                    <span class="home-button-text">กลับหน้าหลัก</span>
+                </div>
+                <div class="reset-button" onclick="resetProgress()">
+                    <i class="fas fa-redo"></i>
+                    <span class="reset-button-text">รีเซ็ตความคืบหน้า</span>
+                </div>
 
-    <div class="container">
-        <!-- Header Section with Video Background -->
-        <div class="header">
-            <!-- Home Button - Fixed on top of all content -->
-            <div class="home-button" onclick="goToHome()">
-                <i class="fas fa-home"></i>
-                <span class="home-button-text">กลับหน้าหลัก</span>
+                <video class="header-video" autoplay muted loop playsinline>
+                    <source src="assets/video_bg/test.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="header-overlay"></div>
+                <div class="header-content">
+                    <!-- You can add header content here if needed -->
+                </div>
             </div>
 
-            <video class="header-video" autoplay muted loop playsinline>
-                <source src="assets/video_bg/test.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div class="header-overlay"></div>
-            <div class="header-content">
-                <!-- You can add header content here if needed -->
+            <!-- Test Levels Container -->
+            <div class="test-container">
+                <!-- Level 1 -->
+                <div class="level-item" onclick="handleLevelClick(1)">
+                    <div class="level-video-container">
+                        <div class="video-overlay"></div>
+                        <video class="level-video" autoplay muted loop
+                            playsinline>
+                            <source src="assets/video_bg/level1.mp4"
+                                type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="level-info">
+                        <h2>Level 1</h2>
+                        <p>
+                            เป็นแบบประเมินระดับความรู้สึกตัวคนไข้ในระดับที่เหมาะสำหรับผู้ที่เริ่มต้นเรียนรู้
+                            ซึ่งสถานการณ์จะค่อนข้างเข้าใจง่าย
+                            ไม่ซับซ้อน
+                        </p>
+                        <div class="level-button">เริ่มทดสอบ</div>
+                    </div>
+                </div>
+
+                <!-- Level 2 -->
+                <div class="level-item" onclick="handleLevelClick(2)">
+                    <div class="level-video-container">
+                        <div class="video-overlay"></div>
+                        <video class="level-video" autoplay muted loop
+                            playsinline>
+                            <source src="assets/video_bg/level2.mp4"
+                                type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="level-info">
+                        <h2>Level 2</h2>
+                        <p>
+                            เป็นการประเมินระดับความรู้สึกตัวของคนไข้ที่มีระดับความยากเพิ่มมากขึ้น
+                            สถานการณ์จะมีความหลากหลาย และซับซ้อนเพิ่มมากขึ้น
+                            เหมาะสำหรับผู้ที่เรียนรู้และเข้าใจในระดับพื้นฐานของการเรียนรู้เรื่อง
+                            GCS แล้ว
+                        </p>
+                        <div class="level-button">เริ่มทดสอบ</div>
+                    </div>
+                </div>
+
+                <!-- Level 3 -->
+                <div class="level-item" onclick="handleLevelClick(3)">
+                    <div class="level-video-container">
+                        <div class="video-overlay"></div>
+                        <video class="level-video" autoplay muted loop
+                            playsinline>
+                            <source src="assets/video_bg/level3.mp4"
+                                type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="level-info">
+                        <h2>Level 3</h2>
+                        <p>
+                            เป็นระดับที่ความยาก และซับซ้อนมากที่สุด
+                            ซึ่งเหมาะสำหรับผู้ที่มีความรู้ ความเข้าใจ
+                            เกี่ยวกับการประเมินโดยใช้แบบประเมิน Glasgow coma
+                            scale ในระดับดีแล้ว สถานการณ์จะมีความซับซ้อน
+                            และหลากหลายซึ่งต้องใช้การสังเกตเป็นอย่างมาก
+                        </p>
+                        <div class="level-button">เริ่มทดสอบ</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level Info Modal -->
+<div class="level-info-modal" id="levelInfoModal">
+    <div class="level-info-content">
+        <div class="level-info-header">
+            <h2 id="levelModalTitle">ข้อมูลการทดสอบ</h2>
+        </div>
+        <div class="level-info-body">
+            <div class="level-info-point">
+                <i class="fas fa-video"></i>
+                <div>แต่ละระดับมี <span class="highlight-point">5 สถานการณ์</span> ให้ประเมิน โดยแต่ละสถานการณ์ประกอบด้วยคลิปวิดีโอ</div>
+            </div>
+            <div class="level-info-point">
+                <i class="fas fa-question-circle"></i>
+                <div>แต่ละสถานการณ์มี <span class="highlight-point">3 คำถาม</span> ที่ต้องตอบให้ถูกต้อง</div>
+            </div>
+            <div class="level-info-point">
+                <i class="fas fa-redo"></i>
+                <div>สามารถดูคลิปวิดีโอได้ <span class="highlight-point">2 รอบ</span> ต่อสถานการณ์</div>
+            </div>
+            <div class="level-info-point">
+                <i class="fas fa-clock"></i>
+                <div>เวลาในการทำแต่ละสถานการณ์ไม่เกิน <span class="highlight-point">5 นาที</span></div>
+            </div>
+            <div class="level-info-point">
+                <i class="fas fa-check-circle"></i>
+                <div>ต้องตอบถูกทั้ง <span class="highlight-point">3 คำถาม</span> ในสถานการณ์นั้นจึงจะได้ <span class="highlight-point">1 คะแนน</span></div>
+            </div>
+            <div class="level-info-point">
+                <i class="fas fa-trophy"></i>
+                <div>ต้องได้คะแนนรวม <span class="highlight-point">มากกว่า 3/5</span> จึงจะปลดล็อกระดับต่อไป</div>
             </div>
         </div>
-
-        <!-- Test Levels Container -->
-        <div class="test-container">
-            <!-- Level 1 -->
-            <div class="level-item" onclick="handleLevelClick(1)">
-                <div class="level-video-container">
-                    <div class="video-overlay"></div>
-                    <video class="level-video" autoplay muted loop playsinline>
-                        <source src="assets/video_bg/level1.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="level-info">
-                    <h2>Level 1</h2>
-                    <p>
-                        เป็นแบบประเมินระดับความรู้สึกตัวคนไข้ในระดับที่เหมาะสำหรับผู้ที่เริ่มต้นเรียนรู้ ซึ่งสถานการณ์จะค่อนข้างเข้าใจง่าย 
-                        ไม่ซับซ้อน
-                    </p>
-                    <div class="level-button">เริ่มทดสอบ</div>
-                </div>
-            </div>
-
-            <!-- Level 2 -->
-            <div class="level-item" onclick="handleLevelClick(2)">
-                <div class="level-video-container">
-                    <div class="video-overlay"></div>
-                    <video class="level-video" autoplay muted loop playsinline>
-                        <source src="assets/video_bg/level2.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="level-info">
-                    <h2>Level 2</h2>
-                    <p>
-                        เป็นการประเมินระดับความรู้สึกตัวของคนไข้ที่มีระดับความยากเพิ่มมากขึ้น สถานการณ์จะมีความหลากหลาย และซับซ้อนเพิ่มมากขึ้น เหมาะสำหรับผู้ที่เรียนรู้และเข้าใจในระดับพื้นฐานของการเรียนรู้เรื่อง GCS แล้ว
-                    </p>
-                    <div class="level-button">เริ่มทดสอบ</div>
-                </div>
-            </div>
-
-            <!-- Level 3 -->
-            <div class="level-item" onclick="handleLevelClick(3)">
-                <div class="level-video-container">
-                    <div class="video-overlay"></div>
-                    <video class="level-video" autoplay muted loop playsinline>
-                        <source src="assets/video_bg/level3.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="level-info">
-                    <h2>Level 3</h2>
-                    <p>
-                        เป็นระดับที่ความยาก และซับซ้อนมากที่สุด ซึ่งเหมาะสำหรับผู้ที่มีความรู้ ความเข้าใจ เกี่ยวกับการประเมินโดยใช้แบบประเมิน Glasgow coma scale ในระดับดีแล้ว สถานการณ์จะมีความซับซ้อน และหลากหลายซึ่งต้องใช้การสังเกตเป็นอย่างมาก
-                    </p>
-                    <div class="level-button">เริ่มทดสอบ</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <img src="assets/images/university_logo.jpg" alt="University Logo" class="university-footer-logo">
-            <span class="footer-text">GCS SSKRU Faculty of nursing</span>
+        <div class="level-info-footer">
+            <button class="level-info-button level-info-cancel">ยกเลิก</button>
+            <button class="level-info-button level-info-confirm">เริ่มทำแบบทดสอบ</button>
         </div>
     </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const videos = document.querySelectorAll('video');
+            <!-- Footer -->
+            <div class="footer">
+                <img src="assets/images/university_logo.jpg"
+                    alt="University Logo" class="university-footer-logo">
+                <span class="footer-text">GCS SSKRU Faculty of nursing</span>
+            </div>
+        </div>
+
+        <script>
+
+            // ฟังก์ชันรีเซ็ตความคืบหน้า
+function resetProgress() {
+    if (confirm("คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ตความคืบหน้าทั้งหมด? การดำเนินการนี้จะล็อกเลเวลทั้งหมดยกเว้นเลเวลแรก")) {
+        localStorage.removeItem('passedLevels');
+        
+        // แสดงการยืนยันด้วย animation
+        const resetButton = document.querySelector('.reset-button');
+        resetButton.innerHTML = '<i class="fas fa-check"></i>';
+        resetButton.style.backgroundColor = '#4CAF50';
+        resetButton.style.color = 'white';
+        
+        setTimeout(() => {
+            resetButton.innerHTML = '<i class="fas fa-redo"></i>';
+            resetButton.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+            resetButton.style.color = '#FF6B00';
+            
+            // รีโหลดหน้าเพื่อแสดงผลลัพธ์
+            checkLevelUnlocks();
+        }, 1500);
+    }
+}
+
+
+        // เพิ่มฟังก์ชันตรวจสอบสถานะ Level
+        function checkLevelUnlocks() {
+    const passedLevels = JSON.parse(localStorage.getItem('passedLevels') || '{}');
+    
+    // ตรวจสอบ Level 2
+    const level2Item = document.querySelectorAll('.level-item')[1];
+    if (!passedLevels[1]) {
+        level2Item.classList.add('level-locked');
+        level2Item.innerHTML += `
+            <div class="lock-overlay"></div>
+            <div class="lock-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+        `;
+    } else {
+        level2Item.classList.remove('level-locked');
+        const lockElements = level2Item.querySelectorAll('.lock-overlay, .lock-icon, .lock-message');
+        lockElements.forEach(el => el.remove());
+    }
+
+    // ตรวจสอบ Level 3
+    const level3Item = document.querySelectorAll('.level-item')[2];
+    if (!passedLevels[2]) {
+        level3Item.classList.add('level-locked');
+        level3Item.innerHTML += `
+            <div class="lock-overlay"></div>
+            <div class="lock-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+        `;
+    } else {
+        level3Item.classList.remove('level-locked');
+        const lockElements = level3Item.querySelectorAll('.lock-overlay, .lock-icon, .lock-message');
+        lockElements.forEach(el => el.remove());
+    }
+}
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLevelUnlocks();
 
             // ตั้งค่าทุกวิดีโอให้เล่นอัตโนมัติและลูป
             videos.forEach(video => {
@@ -606,21 +956,65 @@
             homeButton.style.animation = 'float 3s ease-in-out infinite';
         });
 
+        let currentLevelToAccess = 1;
         // Function to handle level click
-        function handleLevelClick(level) {
-            console.log(`Level ${level} clicked`);
-            
-            // Add visual feedback for click
-            const levelItem = document.querySelectorAll('.level-item')[level - 1];
-            levelItem.style.transform = 'scale(0.98)';
-        
-            setTimeout(() => {
-                levelItem.style.transform = 'translateY(-5px)';
-                
-                // Navigate to level.html with the selected level parameter
-                window.location.href = `/level.html?level=${level}`;
-            }, 150);
+function handleLevelClick(level) {
+    const passedLevels = JSON.parse(localStorage.getItem('passedLevels') || '{}');
+    
+    // Check if level is locked
+    if (level > 1 && !passedLevels[level - 1]) {
+        alert(`คุณต้องผ่าน Level ${level - 1} ก่อนจึงจะสามารถทำ Level ${level} ได้`);
+        return;
+    }
+    
+    // Store the level number for later use
+    currentLevelToAccess = level;
+    
+    // Show the level info modal
+    const modal = document.getElementById('levelInfoModal');
+    const modalTitle = document.getElementById('levelModalTitle');
+    
+    // Update modal title
+    modalTitle.textContent = `ข้อมูลการทดสอบ Level ${level}`;
+    
+    // Show modal
+    modal.classList.add('active');
+    
+    // Visual feedback for level click
+    const levelItem = document.querySelectorAll('.level-item')[level - 1];
+    levelItem.style.transform = 'scale(0.98)';
+    setTimeout(() => {
+        levelItem.style.transform = 'translateY(-5px)';
+    }, 150);
+}
+
+// Add event listeners for modal buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('levelInfoModal');
+    const confirmBtn = document.querySelector('.level-info-confirm');
+    const cancelBtn = document.querySelector('.level-info-cancel');
+    
+    // Confirm button - proceed to level
+    confirmBtn.addEventListener('click', function() {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            window.location.href = `/level.html?level=${currentLevelToAccess}`;
+        }, 300);
+    });
+    
+    // Cancel button - close modal
+    cancelBtn.addEventListener('click', function() {
+        modal.classList.remove('active');
+    });
+    
+    // Close modal when clicking outside content
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('active');
         }
+    });
+});
+
 
         // Function to navigate to home page
         function goToHome() {
@@ -637,6 +1031,6 @@
             }, 150);
         }
     </script>
-</body>
+    </body>
 
 </html>
