@@ -625,14 +625,40 @@
             color: #666;
         }
         
-        .result-container {
-            text-align: center;
-            padding: 30px;
-            background-color: #f8f8f8;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgb(255, 255, 255);
-            display: none;
-        }
+.result-container {
+    text-align: center;
+    padding: 30px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    display: none; /* เปลี่ยนจาก none เป็น block เมื่อแสดงผล */
+    
+    /* วิธีจัดกลางที่แน่นอน */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 80%;
+    max-width: 600px;
+    z-index: 1000; /* ให้แสดงข้างบนสุด */
+}
+
+@media (max-width: 768px) {
+    .result-container {
+        width: 95%;
+        padding: 20px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .result-container {
+        width: 98%;
+        padding: 15px;
+        top: 45%; /* ปรับตำแหน่งบนมือถือ */
+    }
+}
         
         .result-title {
             font-size: 28px;
@@ -811,11 +837,14 @@
                 width: 100%;
             }
         
-            .quiz-container {
-                width: 100%;
-                padding-left: 0;
-                margin-top: 20px;
-            }
+.quiz-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 400px;
+}
         
             .answer-section {
                 margin-top: 0;
@@ -1141,6 +1170,22 @@
   transform: scale(1.1);
 }
 
+.result-button.next-level {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+}
+
+.result-button.next-level:hover {
+    background: linear-gradient(135deg, #81C784, #4CAF50);
+    color: white;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(76, 175, 80, 0.5);
+}
+
+.result-button.next-level i {
+    margin-right: 10px;
+}
+
     </style>
     </head>
 
@@ -1253,12 +1298,6 @@
                                 id="final-score">0</span>/5</div>
                         <div class="result-message"
                             id="result-message">คุณทำได้ดีมาก!</div>
-                        <button class="result-button" onclick="restartTest()">
-                            ทำแบบทดสอบอีกครั้ง
-                        </button>
-                        <button class="result-button" onclick="goToHome()">
-                            กลับหน้าหลัก
-                        </button>
                     </div>
                 </div>
 
@@ -1743,11 +1782,32 @@ function selectOption(element, category) {
         }
 
         // Function to create media elements for a scenario
-    function createMediaElements(scenarioId) {
+function createMediaElements(scenarioId) {
     const mediaContainer = document.getElementById('media-container');
     mediaContainer.innerHTML = ''; // Clear previous content
   
-    // Create video container
+    // Create image container (จะถูกแสดงก่อน - ด้านบน)
+    const imageItem = document.createElement('div');
+    imageItem.className = 'media-item';
+  
+    const imageHeader = document.createElement('div');
+    imageHeader.className = 'media-header';
+    imageHeader.innerHTML = `<span>สถานการณ์ - ภาพประกอบ</span> <span>สถานการณ์ ${currentScenarioIndex + 1}</span>`;
+  
+    const imageContent = document.createElement('div');
+    imageContent.className = 'media-content';
+  
+    const image = document.createElement('img');
+    image.className = 'media-image';
+    image.src = `assets/test_v/${scenarioId}/${scenarioId}.jpg`;
+    image.alt = `Situation Image`;
+  
+    imageContent.appendChild(image);
+    imageItem.appendChild(imageHeader);
+    imageItem.appendChild(imageContent);
+    mediaContainer.appendChild(imageItem);
+  
+    // Create video container (จะถูกแสดงหลัง - ด้านล่าง)
     const videoItem = document.createElement('div');
     videoItem.className = 'media-item';
   
@@ -1775,27 +1835,6 @@ function selectOption(element, category) {
   
     // ตั้งค่าติดตามการเล่นวิดีโอแบบใหม่
     setupVideoTracking(video);
-  
-    // Create image container
-    const imageItem = document.createElement('div');
-    imageItem.className = 'media-item';
-  
-    const imageHeader = document.createElement('div');
-    imageHeader.className = 'media-header';
-    imageHeader.innerHTML = `<span>สถานการณ์ - ภาพประกอบ</span> <span>สถานการณ์ ${currentScenarioIndex + 1}</span>`;
-  
-    const imageContent = document.createElement('div');
-    imageContent.className = 'media-content';
-  
-    const image = document.createElement('img');
-    image.className = 'media-image';
-    image.src = `assets/test_v/${scenarioId}/${scenarioId}.jpg`;
-    image.alt = `Situation Image`;
-  
-    imageContent.appendChild(image);
-    imageItem.appendChild(imageHeader);
-    imageItem.appendChild(imageContent);
-    mediaContainer.appendChild(imageItem);
     
     // เริ่มจับเวลาเมื่อโหลดสถานการณ์ใหม่
     startTimer();
@@ -1960,12 +1999,16 @@ clearInterval(timerInterval); // เคลียร์ timer
 }
 
 // ปรับปรุงฟังก์ชัน showResults
-// ฟังก์ชันแสดงผลลัพธ์และเอฟเฟกต์ confetti
 function showResults() {
-    clearInterval(timerInterval); // เคลียร์ timer เมื่อแสดงผลลัพธ์
+    // ซ่อนส่วน media-container
+    document.getElementById('media-container').style.display = 'none';
+    
     // ซ่อนส่วนแบบทดสอบและปุ่มถัดไป
     document.getElementById('quiz-sections-container').style.display = 'none';
     document.getElementById('next-button').style.display = 'none';
+  
+    // ซ่อน progress container ที่แสดง "แบบทดสอบที่ 5/5"
+    document.querySelector('.progress-container').style.display = 'none';
   
     // แสดงผลลัพธ์
     const resultContainer = document.getElementById('result-container');
@@ -2000,6 +2043,41 @@ function showResults() {
     resultTitle.style.fontWeight = 'bold';
     resultTitle.style.color = '#2d3748';
     resultTitle.style.textAlign = 'center';
+
+     // Create buttons container
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.className = 'result-buttons-container';
+    
+    // Always show home button
+    // ปุ่มกลับไปหน้าแบบทดสอบ (แทนที่ปุ่มกลับหน้าหลักเดิม)
+    const testButton = document.createElement('button');
+    testButton.className = 'result-button test';
+    testButton.innerHTML = '<i class="fas fa-arrow-left"></i> กลับไปหน้าแบบทดสอบ';
+    testButton.onclick = function() {
+        window.location.href = "/test.html";
+    };
+    buttonsContainer.appendChild(testButton);
+    // Show different buttons based on score
+    if (score >= 3 && currentLevel < 3) {
+        // If passed and not on the last level, show "Next Level" button
+        const nextLevelButton = document.createElement('button');
+        nextLevelButton.className = 'result-button next-level';
+        nextLevelButton.innerHTML = '<i class="fas fa-arrow-right"></i> ไป Level ' + (currentLevel + 1);
+        nextLevelButton.onclick = function() {
+            window.location.href = `/level.html?level=${currentLevel + 1}`;
+        };
+        buttonsContainer.appendChild(nextLevelButton);
+    } else {
+        // Otherwise show restart button
+        const restartButton = document.createElement('button');
+        restartButton.className = 'result-button restart';
+        restartButton.innerHTML = '<i class="fas fa-redo"></i> ทำแบบทดสอบอีกครั้ง';
+        restartButton.onclick = restartTest;
+        buttonsContainer.appendChild(restartButton);
+    }
+
+    // Add buttons container to result container
+    resultContainer.appendChild(buttonsContainer);
     
     // ปรับแต่งปุ่มให้ดูสวยงามขึ้น
     const buttons = document.querySelectorAll('.result-button');
@@ -2524,28 +2602,40 @@ function createConfettiPiece(colors, types) {
     return confetti;
 }
 
-// Function to restart the test
-    function restartTest() {
-        // Reset variables
-        currentScenarioIndex = 0;
-        score = 0;
-        videoPlayCount = 0;
-        clearInterval(timerInterval);
+function restartTest() {
+    // Reset all variables
+    currentScenarioIndex = 0;
+    score = 0;
+    videoPlayCount = 0;
+    clearInterval(timerInterval);
+    userSelections = {};
+    answeredQuestions = { eye: false, verbal: false, motor: false };
 
-        // Select new random scenarios
-        selectedScenarios = selectRandomScenarios();
+    // Hide results and show quiz content
+    document.getElementById('result-container').style.display = 'none';
+    document.getElementById('quiz-sections-container').style.display = 'block';
+    document.getElementById('next-button').style.display = 'block';
+    document.getElementById('media-container').style.display = 'flex';
+    document.querySelector('.progress-container').style.display = 'block';
 
-        // Hide results
-        document.getElementById('result-container').style.display = 'none';
+    // Reset button text
+    const nextButton = document.getElementById('next-button');
+    nextButton.textContent = 'ตอบ';
+    nextButton.innerHTML = 'ตอบ <i class="fas fa-check"></i>';
+    nextButton.disabled = true;
+    nextButton.removeEventListener('click', handleNextClick);
+    nextButton.addEventListener('click', handleAnswerClick);
 
-        // Show quiz content
-        document.getElementById('quiz-sections-container').style.display = 'block';
-        document.getElementById('next-button').style.display = 'block';
-        document.getElementById('media-container').style.display = 'flex';
+    // Select new random scenarios
+    selectedScenarios = selectRandomScenarios();
 
-        // Load the first scenario
+    // Load the first scenario
+    if (selectedScenarios.length > 0) {
         loadScenario(selectedScenarios[currentScenarioIndex]);
+    } else {
+        console.error("No scenarios available!");
     }
+}
 
 // เพิ่มเอฟเฟกต์ลอยสำหรับปุ่มโฮม
 const homeButton = document.querySelector('.home-button,.back-button');
